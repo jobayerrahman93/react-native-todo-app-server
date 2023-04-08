@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import AssyncWrapper from "../../common/middleware/assyncWrapper/assyncWrapper";
+import error from "../../common/utils/error/responseError";
 import { authService } from "../service/auth.service";
 
 const authController = AssyncWrapper(async (req: Request, res: Response) => {
@@ -8,7 +9,7 @@ const authController = AssyncWrapper(async (req: Request, res: Response) => {
   if (data.success) {
     res.status(200).json(data);
   } else {
-    res.status(400).json(data);
+    error(data.message, 422);
   }
 });
 
