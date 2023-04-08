@@ -4,7 +4,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import config from "./common/config/config";
 import ErrorHandler from "./common/middleware/errorHandler/errorHandler";
 import CustomError from "./common/utils/error/customError";
-import { default as AuthRouter } from "./main/router/auth.router";
+import Routes from "./main/app/routes";
 
 dotenv.config();
 const app: Express = express();
@@ -12,7 +12,11 @@ const port = config.PORT || 6000;
 app.use(express.json());
 app.use(cors());
 
-app.use("/api/v1/auth", AuthRouter);
+// all routes
+const route = () => {
+  Routes(app);
+};
+route();
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Server is running..");
