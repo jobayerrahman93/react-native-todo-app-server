@@ -1,8 +1,13 @@
 import { Request } from "express";
 import config from "../../common/config/config";
-import { createToken, hashPass } from "../../common/utils/libraries/lib";
+import {
+  compare,
+  createToken,
+  hashPass,
+} from "../../common/utils/libraries/lib";
 import { db } from "../app/database";
 
+// user registration service
 const authRegisterService = async (req: Request) => {
   const { email, password, city, name } = req.body;
 
@@ -49,4 +54,34 @@ const authRegisterService = async (req: Request) => {
   };
 };
 
-export { authRegisterService };
+// user login service
+const authLoginService = async (req: Request) => {
+  const { email, password } = req.body;
+
+  const checkUser = await db("user")
+    .select("name", "email", "city", "password")
+    .where({ email });
+
+  const { password: hashedPass, ...rest } = checkUser[0];
+
+  const checkPass = await compare(password, hashedPass);
+
+  console.log({ checkPass });
+
+  if (!checkPass) {
+    return {
+      success: false,
+      message: "Wrong password or email",
+    };
+  }
+
+  const token = createToken({ ...rest }, config.JWT_SECRET_USER, "24h");
+
+  return {
+    success: true,
+    data: rest,
+    token,
+  };
+};
+
+export { authRegisterService, authLoginService };

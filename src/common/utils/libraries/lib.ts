@@ -6,6 +6,10 @@ const hashPass = async (password: string) => {
   return await bcrypt.hash(password, salt);
 };
 
+const compare = async (password: string, hashedPassword: string) => {
+  return await bcrypt.compare(password, hashedPassword);
+};
+
 const createToken = (
   creds: object,
   secret: string,
@@ -14,4 +18,4 @@ const createToken = (
   return jwt.sign(creds, secret, { expiresIn: maxAge });
 };
 
-export { hashPass, createToken };
+export { hashPass, createToken, compare };
