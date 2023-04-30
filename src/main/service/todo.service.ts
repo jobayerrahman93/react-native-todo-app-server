@@ -19,6 +19,13 @@ const createTodoService = async (req: Request) => {
 };
 
 // get all todo service
-const getAllTodoService = async (req: Request) => {};
+const getAllTodoService = async (req: Request) => {
+  const data = await db("todos").select("*");
+
+  return {
+    success: true,
+    data,
+  };
+};
 
 export { createTodoService, getAllTodoService };

@@ -21,11 +21,11 @@ const getAllTodoController = AssyncWrapper(
   async (req: Request, res: Response) => {
     const data = await getAllTodoService(req);
 
-    // if (data.success) {
-    //   res.status(200).json(data);
-    // } else {
-    //   res.status(400).json(data);
-    // }
+    if (data.success) {
+      res.status(200).json(data);
+    } else {
+      res.status(400).json(data);
+    }
   }
 );
 
