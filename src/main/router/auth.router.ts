@@ -17,4 +17,5 @@ router
 
 // login
 router.route("/login").post(userLoginValidator(), authLoginController);
+
 export default router;
