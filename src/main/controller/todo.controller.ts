@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import AssyncWrapper from "../../common/middleware/assyncWrapper/assyncWrapper";
 import error from "../../common/utils/error/responseError";
-import { createTodoService, getAllTodoService } from "../service/todo.service";
+import {
+  createTodoService,
+  getAllTodoService,
+  getSingleTodoService,
+} from "../service/todo.service";
 
 // todo create controller
 const createTodoController = AssyncWrapper(
@@ -29,4 +33,17 @@ const getAllTodoController = AssyncWrapper(
   }
 );
 
-export { createTodoController, getAllTodoController };
+// get single todo controller
+const getSingleTodoController = AssyncWrapper(
+  async (req: Request, res: Response) => {
+    const data = await getSingleTodoService(req);
+
+    if (data.success) {
+      res.status(200).json(data);
+    } else {
+      error(data.message, 422);
+    }
+  }
+);
+
+export { createTodoController, getAllTodoController, getSingleTodoController };

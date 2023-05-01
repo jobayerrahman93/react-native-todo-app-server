@@ -1,9 +1,11 @@
 import { Router } from "express";
-import { createTodoValidator } from "../../common/middleware/validator/todoValidator";
+import { singleParamInputValidation } from "../../common/middleware/validator/commonValidator";
 import {
   createTodoController,
   getAllTodoController,
+  getSingleTodoController,
 } from "../controller/todo.controller";
+import { createTodoValidator } from "../validator/todoValidator";
 
 const router = Router();
 
@@ -13,4 +15,12 @@ router
   .post(createTodoValidator(), createTodoController)
   .get(getAllTodoController);
 
+// get single todo
+
+router
+  .route("/:id")
+  .get(
+    singleParamInputValidation("id", "Provide todo id"),
+    getSingleTodoController
+  );
 export default router;

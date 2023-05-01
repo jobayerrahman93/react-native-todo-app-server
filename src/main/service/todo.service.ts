@@ -20,12 +20,30 @@ const createTodoService = async (req: Request) => {
 
 // get all todo service
 const getAllTodoService = async (req: Request) => {
-  const data = await db("todos").select("*");
+  const { user_id } = req.query;
+  const data = await db("todos")
+    .select("todo_id", "todo_title", "todo_description")
+    .where({ user_id });
 
   return {
     success: true,
     data,
   };
 };
+// get single todo service
+const getSingleTodoService = async (req: Request) => {
+  const { id } = req.params;
+  const data = await db("todos").select("*").where({ todo_id: id });
+  if (data.length) {
+    return {
+      success: true,
+      data: data[0],
+    };
+  }
+  return {
+    success: false,
+    message: "Todo not found with this id",
+  };
+};
 
-export { createTodoService, getAllTodoService };
+export { createTodoService, getAllTodoService, getSingleTodoService };
