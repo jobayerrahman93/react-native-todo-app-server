@@ -46,4 +46,25 @@ const getSingleTodoService = async (req: Request) => {
   };
 };
 
-export { createTodoService, getAllTodoService, getSingleTodoService };
+// update single todo service
+const updateSingleTodoService = async (req: Request) => {
+  const { id } = req.params;
+  const res = await db("todos").update(req.body).where({ todo_id: id });
+  if (res) {
+    return {
+      success: true,
+      message: "Todo updated successfully",
+    };
+  }
+  return {
+    success: false,
+    message: "Cannot update todo at this moment",
+  };
+};
+
+export {
+  createTodoService,
+  getAllTodoService,
+  getSingleTodoService,
+  updateSingleTodoService,
+};

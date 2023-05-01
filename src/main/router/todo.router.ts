@@ -4,6 +4,7 @@ import {
   createTodoController,
   getAllTodoController,
   getSingleTodoController,
+  updateSingleTodoController,
 } from "../controller/todo.controller";
 import { createTodoValidator } from "../validator/todoValidator";
 
@@ -22,5 +23,9 @@ router
   .get(
     singleParamInputValidation("id", "Provide todo id"),
     getSingleTodoController
+  )
+  .patch(
+    singleParamInputValidation("id", "Provide todo id"),
+    updateSingleTodoController
   );
 export default router;

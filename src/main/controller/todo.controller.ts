@@ -5,6 +5,7 @@ import {
   createTodoService,
   getAllTodoService,
   getSingleTodoService,
+  updateSingleTodoService,
 } from "../service/todo.service";
 
 // todo create controller
@@ -46,4 +47,22 @@ const getSingleTodoController = AssyncWrapper(
   }
 );
 
-export { createTodoController, getAllTodoController, getSingleTodoController };
+// update single todo controller
+const updateSingleTodoController = AssyncWrapper(
+  async (req: Request, res: Response) => {
+    const data = await updateSingleTodoService(req);
+
+    if (data.success) {
+      res.status(200).json(data);
+    } else {
+      error(data.message, 422);
+    }
+  }
+);
+
+export {
+  createTodoController,
+  getAllTodoController,
+  getSingleTodoController,
+  updateSingleTodoController,
+};
